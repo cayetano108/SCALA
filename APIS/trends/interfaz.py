@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 from pytrends.request import TrendReq
 import pandas as pd
@@ -38,7 +36,7 @@ periodo = st.selectbox(
 )
 region = st.selectbox(
     "Región", 
-    options=['', 'ES', 'ES-CT', 'US', 'FR', 'DE'],
+    options=['', 'ES', 'ES-CN', 'US', 'FR', 'DE'],
     format_func=lambda x: {
         '': "Mundial",
         'ES': "España",
@@ -67,7 +65,7 @@ palabras_clave = [kw.strip() for kw in busquedas.split(",")]
 if st.button("Obtener Tendencias"):
     try:
         # Pausa para no exceder el límite de peticiones
-        time.sleep(5)  # Aumentar el tiempo de espera
+        time.sleep(5)
         
         # Construir la consulta a Google Trends
         pytrends.build_payload(palabras_clave, cat=categoria, timeframe=periodo, geo=region, gprop=servicio)
@@ -79,8 +77,18 @@ if st.button("Obtener Tendencias"):
         if not interest_over_time_df.empty:
             st.write("Resultados de la tendencia de búsqueda:")
             st.dataframe(interest_over_time_df)
+            
+            try:
+                # Obtener el interés por subregiones
+                st.write("Resultados de la tendencia por subregiones:")
+                interest_by_region_df = pytrends.interest_by_region(resolution='REGION')
+                if not interest_by_region_df.empty:
+                    st.dataframe(interest_by_region_df)
+                else:
+                    st.write("No se encontraron datos para las subregiones.")
+            except Exception as e:
+                st.write("No se pudieron obtener los datos por subregiones.")
         else:
             st.write("No se encontraron datos para los parámetros seleccionados.")
     except Exception as e:
         st.error(f"Error al obtener datos de Google Trends: {e}")
-
