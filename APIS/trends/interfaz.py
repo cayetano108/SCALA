@@ -89,7 +89,6 @@ if st.button("Obtener Tendencias"):
                 st.image(image, caption="Análisis de tendencias")
             else:
                 st.warning(f"No se encontró la imagen en la ruta: {image_path}")
-            st.image(image, caption="Análisis de tendencias")  # Mostrar la imagen
             
             st.write("Resultados de la tendencia de búsqueda:")
             st.dataframe(interest_over_time_df)
