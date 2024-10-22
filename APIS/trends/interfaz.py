@@ -2,6 +2,7 @@ import streamlit as st
 from pytrends.request import TrendReq
 import pandas as pd
 import time
+from PIL import Image  # Necesario para cargar imágenes en Streamlit
 
 # Inicialización de pytrends
 pytrends = TrendReq(hl='es-ES', tz=60)
@@ -36,11 +37,11 @@ periodo = st.selectbox(
 )
 region = st.selectbox(
     "Región", 
-    options=['ES-CN', 'ES', '', 'US', 'FR', 'DE'],
+    options=['', 'ES', 'ES-CN', 'US', 'FR', 'DE'],
     format_func=lambda x: {
-        'ES-CN': "Islas Canarias (España)",
-        'ES': "España",
         '': "Mundial",
+        'ES': "España",
+        'ES-CN': "Islas Canarias (España)",
         'US': "Estados Unidos",
         'FR': "Francia",
         'DE': "Alemania"
@@ -75,19 +76,23 @@ if st.button("Obtener Tendencias"):
         
         # Verificar si hay datos
         if not interest_over_time_df.empty:
+
+            # texto que ponga tendencias encontradas!!!!
+            st.write("Tendencias encontradas!!!!")
+            # Mostrar la imagen junto con el dataframe
+            image = Image.open("imgs/foto.png")  # Cargar la imagen de la carpeta imgs
+            st.image(image, caption="Análisis de tendencias")  # Mostrar la imagen
+            
             st.write("Resultados de la tendencia de búsqueda:")
             st.dataframe(interest_over_time_df)
             
-            try:
-                # Obtener el interés por subregiones
-                st.write("Resultados de la tendencia por subregiones:")
-                interest_by_region_df = pytrends.interest_by_region(resolution='REGION')
-                if not interest_by_region_df.empty:
-                    st.dataframe(interest_by_region_df)
-                else:
-                    st.write("No se encontraron datos para las subregiones.")
-            except Exception as e:
-                st.write("No se pudieron obtener los datos por subregiones.")
+            # Obtener el interés por subregiones
+            st.write("Resultados de la tendencia por subregiones:")
+            interest_by_region_df = pytrends.interest_by_region(resolution='REGION')
+            if not interest_by_region_df.empty:
+                st.dataframe(interest_by_region_df)
+            else:
+                st.write("No se encontraron datos para las subregiones.")
         else:
             st.write("No se encontraron datos para los parámetros seleccionados.")
     except Exception as e:
