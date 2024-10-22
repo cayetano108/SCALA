@@ -80,7 +80,7 @@ if st.button("Obtener Tendencias"):
             # texto que ponga tendencias encontradas!!!!
             st.write("Tendencias encontradas!!!!")
             # Mostrar la imagen junto con el dataframe
-            image = Image.open("imgs/foto.png")  # Cargar la imagen de la carpeta imgs
+            image = Image.open("foto.png")  # Cargar la imagen de la carpeta imgs
             st.image(image, caption="Análisis de tendencias")  # Mostrar la imagen
             
             st.write("Resultados de la tendencia de búsqueda:")
