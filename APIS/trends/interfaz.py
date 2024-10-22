@@ -3,6 +3,7 @@ from pytrends.request import TrendReq
 import pandas as pd
 import time
 from PIL import Image  # Necesario para cargar imágenes en Streamlit
+import os
 
 # Inicialización de pytrends
 pytrends = TrendReq(hl='es-ES', tz=60)
@@ -79,8 +80,15 @@ if st.button("Obtener Tendencias"):
 
             # texto que ponga tendencias encontradas!!!!
             st.write("Tendencias encontradas!!!!")
-            # Mostrar la imagen junto con el dataframe
-            image = Image.open("foto.png")  # Cargar la imagen de la carpeta imgs
+            current_directory = os.path.dirname(__file__)  # Obtener el directorio actual del script
+            image_path = os.path.join(current_directory, "foto.png")  # Ruta absoluta de la imagen
+            
+            # Cargar la imagen si existe
+            if os.path.exists(image_path):
+                image = Image.open(image_path)
+                st.image(image, caption="Análisis de tendencias")
+            else:
+                st.warning(f"No se encontró la imagen en la ruta: {image_path}")
             st.image(image, caption="Análisis de tendencias")  # Mostrar la imagen
             
             st.write("Resultados de la tendencia de búsqueda:")
