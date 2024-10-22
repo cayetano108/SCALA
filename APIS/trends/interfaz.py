@@ -36,11 +36,11 @@ periodo = st.selectbox(
 )
 region = st.selectbox(
     "Región", 
-    options=['', 'ES', 'ES-CN', 'US', 'FR', 'DE'],
+    options=['ES-CN', 'ES', '', 'US', 'FR', 'DE'],
     format_func=lambda x: {
-        '': "Mundial",
-        'ES': "España",
         'ES-CN': "Islas Canarias (España)",
+        'ES': "España",
+        '': "Mundial",
         'US': "Estados Unidos",
         'FR': "Francia",
         'DE': "Alemania"
